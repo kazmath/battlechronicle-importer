@@ -1,7 +1,17 @@
 {
   "name": "genshin-battlechronicles-converter",
   "version": "0.1_ALPHA",
+  "scripts": {
+    "build": "npx tsc",
+    "watch": "npx tsc --watch",
+    "start": "node dist/app.js"
+  },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
+    "@types/jquery": "^3.5.32",
     "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
   }
 }
