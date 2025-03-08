@@ -1,0 +1,7 @@
+{
+  "name": "genshin-battlechronicles-converter",
+  "version": "0.1_ALPHA",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
