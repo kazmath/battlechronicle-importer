@@ -6,7 +6,9 @@
     "outDir": "./dist", // Output directory for compiled JavaScript files
     "sourceMap": true, // Generate source maps for debugging
     "allowJs": true, // Allow JavaScript files
-    "skipLibCheck": true // Skip library type checking
+    "skipLibCheck": true, // Skip library type checking
+    "checkJs": true,
+    "strict": true
   },
   "include": [
     "src/**/*" // Include all TypeScript files from 'src'
