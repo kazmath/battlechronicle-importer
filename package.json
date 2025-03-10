@@ -1,6 +1,6 @@
 {
   "name": "genshin-battlechronicles-converter",
-  "version": "0.1_ALPHA",
+  "version": "1.0",
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc --watch",
