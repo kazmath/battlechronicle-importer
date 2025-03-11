@@ -176,7 +176,7 @@ function deduceAscension(level: number): number {
 }
 
 function injectVersion() {
-    $.getJSON("package.json", function (data) {
+    $.getJSON(`${$(location).attr("href")}package.json`, function (data) {
         // Inject the version from package.json into the page
         $("#package-version").replaceWith(data.version);
     }).fail(function () {
