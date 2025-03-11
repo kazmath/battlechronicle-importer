@@ -1,28 +1,32 @@
+import { ICharacter, IGOOD, IWeapon } from "./types";
 import {
-    IArtifact,
-    ICharacter,
-    IGOOD,
-    ISubstat,
-    IWeapon,
-    SlotKey,
-    StatKey,
-} from "./types";
+    BCChar,
+    BCCharacterKey,
+    BCWeaponKey,
+} from "./types/BattleChroniclesTypes";
 import { CharacterKey } from "./types/CharacterKey";
 import { WeaponKey } from "./types/WeaponKey";
+
 declare var bootstrap: any;
 
-$("#inputarea").on("input", validateInput);
-$("#outputarea").on("click", function (this: HTMLTextAreaElement) {
-    this.select();
-    copyOutput();
-});
-
-validateInput();
-$("#convert-btn").on("click", main);
-
-// $("#copy-btn").on("click", copyOutput);
+main();
 
 function main() {
+    $("#inputarea").on("input", validateInput);
+    $("#outputarea").on("click", function (this: HTMLTextAreaElement) {
+        this.select();
+        copyOutput();
+    });
+
+    validateInput();
+    $("#convert-btn").on("click", startConversion);
+
+    injectVersion();
+
+    // $("#copy-btn").on("click", copyOutput);
+}
+
+function startConversion() {
     const input = $("#inputarea").val();
     // todo: implement
     try {
@@ -72,52 +76,6 @@ function copyOutput() {
         bootstrap.Toast.getOrCreateInstance(toastLiveExample);
 
     toastBootstrap.show();
-}
-
-type BCElement =
-    | "Anemo"
-    | "Geo"
-    | "Electro"
-    | "Dendro"
-    | "Hydro"
-    | "Pyro"
-    | "Cryo";
-
-type BCWeaponKey = string;
-
-interface BCWeapon {
-    id: number;
-    icon: string;
-    type: BCWeaponType;
-    rarity: number; // 1-5 inclusive. stars
-    level: number; // 1-90 inclusive
-    affix_level: 1; // 1-5 inclusive. refinement
-    name: BCWeaponKey;
-}
-
-type BCWeaponType =
-    | 1 // Sword
-    | 10 // Catalyst
-    | 11 // Claymore
-    | 12 // Bow
-    | 13; // Polearm
-
-type BCCharacterKey = string;
-
-interface BCChar {
-    id: number;
-    icon: string;
-    name: BCCharacterKey;
-    element: BCElement;
-    fetter: number;
-    level: number; // 1-90 inclusive
-    rarity: 4 | 5;
-    actived_constellation_num: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-    image: string;
-    is_chosen: boolean;
-    side_icon: string;
-    weapon_type: BCWeaponType;
-    weapon: BCWeapon;
 }
 
 function convertInput(input: string | number | string[]): IGOOD {
@@ -215,4 +173,13 @@ function deduceAscension(level: number): number {
         return 6;
     }
     throw new Error(`Invalid level (${level}).`);
+}
+
+function injectVersion() {
+    $.getJSON("package.json", function (data) {
+        // Inject the version from package.json into the page
+        $("#package-version").replaceWith(data.version);
+    }).fail(function () {
+        console.error("Error loading package.json");
+    });
 }
