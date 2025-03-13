@@ -14,7 +14,7 @@ main();
 function main() {
     $("#inputarea").on("input", validateInput);
     $("#outputarea").on("click", function (this: HTMLTextAreaElement) {
-        this.setSelectionRange(0,Infinity,"backward");
+        // this.setSelectionRange(0,99999999,"backward");
 
         copyOutput();
     });
