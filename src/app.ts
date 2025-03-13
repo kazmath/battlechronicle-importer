@@ -187,10 +187,14 @@ function deduceAscension(level: number): number {
 }
 
 function injectVersion() {
-    $.getJSON(`${location.origin}/package.json`, function (data) {
-        // Inject the version from package.json into the page
-        $("#package-version").replaceWith(data.version);
-    }).fail(function () {
+    const href = location.href;
+    $.getJSON(
+        `${href.substring(0, href.lastIndexOf("/"))}/package.json`,
+        function (data) {
+            // Inject the version from package.json into the page
+            $("#package-version").replaceWith(data.version);
+        }
+    ).fail(function () {
         console.error("Error loading package.json");
     });
 }
