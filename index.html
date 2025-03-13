@@ -26,7 +26,7 @@
         <script src="https://md-block.verou.me/md-block.js" type="module"></script>
 
         <!-- Code -->
-        <script src="dist/app.js" type="module"></script>
+        <script src="./dist/app.js" type="module"></script>
         <link rel="stylesheet" href="style.css">
         <link rel="shortcut icon"
             href="https://webstatic.hoyoverse.com/upload/op-public/2022/08/04/47a1d15958531397e733abcbfceaad35_1250354074216960329.png"
@@ -36,9 +36,20 @@
     <body class="vh-100">
         <header>
             <nav class="navbar navbar-fixed-top vh-10 vw-100 bg-body-secondary">
-                <div class="container-fluid navbar-brand text-wrap" id="navbar-brand">
-                    Genshin Battle Chronicles Converter
-                    <div id="package-version"></div>
+                <div class="container-fluid">
+                    <div class="navbar-brand text-wrap" id="navbar-brand">
+                        Genshin Battle Chronicles Converter
+                        <div id="package-version"></div>
+                    </div>
+                    <div class="navbar-brand text-wrap" id="navbar-brand">
+                        <a target="_blank" href="https://github.com/kazmath/battlechronicles-converter">
+                            <button class="btn btn-outline-secondary">
+                                Source at
+                                <img width="30px" height="30px" src="./assets/GitHub_Invertocat_Dark.svg"
+                                    alt="Github Logo">
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -66,7 +77,7 @@
                                 </h1>
                                 <button class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                            <md-block class="modal-body text-start" src="README.md"></md-block>
+                            <md-block class="modal-body text-start" src="./README.md"></md-block>
                         </div>
                     </div>
                 </div>
