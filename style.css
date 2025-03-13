@@ -1,0 +1,22 @@
+.input-output-areas {
+    height: 70vh !important;
+    resize: none;
+}
+
+@media (max-width: 992px) {
+    .input-output-areas {
+        height: 40vh !important;
+        resize: none;
+    }
+}
+
+.toast-container {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 1050;
+}
+
+md-block img {
+    width: 100%;
+}
