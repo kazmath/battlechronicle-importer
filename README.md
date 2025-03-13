@@ -27,7 +27,7 @@ Select the "Genshin Impact" tab at the top, if it's not already selected, and cl
 ### Step 2
 
 Ensure the page is in english, since the data will also be localized if you don't do
-that, breaking the compatibility with the `.GOOD` format.
+that, breaking the compatibility with the `.good` format.
 
 ![Step 2](doc/step2.png)
 
