@@ -14,7 +14,8 @@ main();
 function main() {
     $("#inputarea").on("input", validateInput);
     $("#outputarea").on("click", function (this: HTMLTextAreaElement) {
-        this.select();
+        this.setSelectionRange(0,Infinity,"backward");
+
         copyOutput();
     });
 
@@ -34,10 +35,20 @@ function startConversion() {
             throw new Error("Empty input.");
         }
         const output = convertInput(input);
-        $("#outputarea").val(JSON.stringify(output, null, 4));
+        const inputAreaElem = $("#inputarea");
+        inputAreaElem.val(
+            JSON.stringify(JSON.parse(input.toString()), null, 4)
+        );
+        inputAreaElem.scrollTop(0);
+        inputAreaElem.scrollLeft(0);
 
-        $("#outputarea").removeAttr("disabled");
-        $("#outputarea").css("cursor", "auto");
+        const outputAreaElem = $("#outputarea");
+        outputAreaElem.val(JSON.stringify(output, null, 4));
+        outputAreaElem.scrollTop(0);
+        outputAreaElem.scrollLeft(0);
+
+        outputAreaElem.removeAttr("disabled");
+        outputAreaElem.css("cursor", "auto");
         // $("#copy-btn").removeAttr("disabled");
         // $("#copy-btn-outer").css("cursor", "auto");
     } catch (error) {
@@ -176,7 +187,7 @@ function deduceAscension(level: number): number {
 }
 
 function injectVersion() {
-    $.getJSON(`${$(location).attr("href")}package.json`, function (data) {
+    $.getJSON(`${location.origin}/package.json`, function (data) {
         // Inject the version from package.json into the page
         $("#package-version").replaceWith(data.version);
     }).fail(function () {
