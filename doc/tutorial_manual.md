@@ -7,21 +7,21 @@ Following are the steps to do in order to manually import the `.json` data from 
 Go to the <a target="_blank" href="https://www.hoyolab.com/">Hoyolab website</a> and ensure you are logged in with
 the account you want to import from.
 
-![Step 0](/doc/step0.png)
+![Step 0](doc/step0.png)
 
 ### Step 1
 
 Select the "Genshin Impact" tab at the top, if it's not already selected, and click the
 "Battle Chronicles" button.
 
-![Step 1](/doc/step1.png)
+![Step 1](doc/step1.png)
 
 ### Step 2
 
 Ensure the page is in english, since the data will also be localized if you don't do
 that, breaking the compatibility with the `.good` format.
 
-![Step 2](/doc/step2.png)
+![Step 2](doc/step2.png)
 
 ### Step 3
 
@@ -35,14 +35,14 @@ either pressing the following hotkeys:
 Or by right-clicking anywhere in the page and clicking the "Inspect" or "Inspect
 Element" option.
 
-<img src="/doc/step3.png" alt="Step 4" style="width:200px;"/>
+<img src="doc/step3.png" alt="Step 4" style="width:200px;"/>
 
 ### Step 4
 
 Select the "Network" tab in the devtools (May need to click the expand icon to view full
 list) and refresh the page.
 
-![Step 3](/doc/step4.png)
+![Step 3](doc/step4.png)
 
 ### Step 5
 
@@ -50,18 +50,18 @@ Filter list by `/list`, right-click the only result (if multiple appear, right-c
 one with the largest filesize) and navigate the menu to find the "Copy response" button,
 which you should click.
 
-![Step 5](/doc/step5.png)
+![Step 5](doc/step5.png)
 
 ### Step 6
 
 Now go back to this site and paste what you've just copied in the "Input" area and click
 convert.
 
-![Step 6](/doc/step6.png)
+![Step 6](doc/step6.png)
 
 ### Step 7
 
 The output area will then display the converted `.good` file, which you can copy and
 paste where you need.
 
-![Step 7](/doc/step7.png)
+![Step 7](doc/step7.png)
