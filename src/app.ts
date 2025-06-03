@@ -21,6 +21,35 @@ declare var bootstrap: any;
 main();
 
 function main() {
+    fetch(
+        "https://api.codetabs.com/v1/proxy/?quest=https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getAllGameBasicInfo?launcher_id=VYTpXlbWo8&language=en-US",
+        {
+            cache: "default",
+        }
+    )
+        .then((res) => res.json())
+        .then(
+            (res) =>
+                res.data.game_info_list.find(
+                    (e: any) => e.game.biz == "hk4e_global"
+                ).backgrounds[0].background.url
+        )
+        .then((url) => {
+            const img = document.createElement("img");
+            img.src = url;
+            img.style.position = "fixed";
+            img.style.top = "0";
+            img.style.width = "100vw";
+            img.style.height = "100vh";
+            img.style.objectFit = "cover";
+            img.style.filter = "blur(4px)";
+            img.style.zIndex = "-1";
+            document.body.appendChild(img);
+            document.body.style.backgroundImage = "none";
+            document.body.style.backgroundColor = "black";
+        })
+        .catch(console.error);
+
     $("#inputarea").on("input", validateInput);
     $("#outputarea").on("click", function (this: HTMLTextAreaElement) {
         // this.setSelectionRange(0,99999999,"backward");

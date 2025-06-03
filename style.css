@@ -20,3 +20,15 @@
 md-block img {
     width: 100%;
 }
+
+header .navbar {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+header .navbar .navbar-brand {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+textarea.form-control {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    color: #000;
+}
