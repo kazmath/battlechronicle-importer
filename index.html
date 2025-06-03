@@ -65,15 +65,38 @@
 
             <div class="px-1 text-center btn-group-vertical" role="group">
                 <button type="button" class="btn px-5 btn-primary" id="convert-btn">Convert</button>
-
                 <button type="button" class="btn px-5 btn-outline-secondary" data-bs-toggle="modal"
-                    data-bs-target="#tutorialModal">How?</button>
-                <div class="modal fade modal-xl" id="tutorialModal" aria-labelledby="tutorialModalLabel">
+                    data-bs-target="#whatModal">
+                    What is this?
+                </button>
+                <div class="btn-group" role="group">
+                    <button class="btn px-5 btn-outline-secondary rounded-bottom dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        How?
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#userscriptTutorialModal">
+                                Automatic (Userscript) [NEW]
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#manualTutorialModal">
+                                Manual (Inspect Element)
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="modal fade modal-xl" id="whatModal" aria-labelledby="whatModalLabel">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="tutorialModalLabel">
-                                    Tutorial
+                                <h1 class="modal-title fs-5" id="whatModalLabel">
+                                    What is this?
                                 </h1>
                                 <button class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
@@ -81,6 +104,36 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade modal-xl" id="userscriptTutorialModal"
+                    aria-labelledby="userscriptTutorialModalLabel">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="userscriptTutorialModalLabel">
+                                    Automatic Tutorial
+                                </h1>
+                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <md-block class="modal-body text-start" src="./userscript_tutorial.md"></md-block>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade modal-xl" id="manualTutorialModal" aria-labelledby="manualTutorialModalLabel">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="manualTutorialModalLabel">
+                                    Manual Tutorial
+                                </h1>
+                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <md-block class="modal-body text-start" src="./manual_tutorial.md"></md-block>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="p-5 flex-grow-1">

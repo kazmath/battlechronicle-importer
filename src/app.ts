@@ -1,9 +1,18 @@
-import { ICharacter, IGOOD, IWeapon } from "./types";
 import {
     BCChar,
     BCCharacterKey,
+    BCCharSkill,
+    BCRelic,
     BCWeaponKey,
-} from "./types/BattleChroniclesTypes";
+    IArtifact,
+    ICharacter,
+    IGOOD,
+    ISubstat,
+    IWeapon,
+    SlotKey,
+    StatKey,
+} from "./types";
+import { ArtifactSetKey } from "./types/ArtifactSetKey";
 import { CharacterKey } from "./types/CharacterKey";
 import { WeaponKey } from "./types/WeaponKey";
 
@@ -28,21 +37,22 @@ function main() {
 }
 
 function startConversion() {
-    const input = $("#inputarea").val();
+    const inputAreaElem = $("#inputarea");
+    const input = inputAreaElem.val();
+    const outputAreaElem = $("#outputarea");
+
     // todo: implement
     try {
         if (input == undefined) {
             throw new Error("Empty input.");
         }
-        const output = convertInput(input);
-        const inputAreaElem = $("#inputarea");
         inputAreaElem.val(
             JSON.stringify(JSON.parse(input.toString()), null, 4)
         );
         inputAreaElem.scrollTop(0);
         inputAreaElem.scrollLeft(0);
 
-        const outputAreaElem = $("#outputarea");
+        const output = convertInput(input);
         outputAreaElem.val(JSON.stringify(output, null, 4));
         outputAreaElem.scrollTop(0);
         outputAreaElem.scrollLeft(0);
@@ -102,7 +112,34 @@ function convertInput(input: string | number | string[]): IGOOD {
         throw new Error("Invalid JSON input");
     }
 
-    const charList: BCChar[] = parsedInput.data.list!;
+    let charListTemp: any;
+    let skillListsTemp: any;
+    let relicListsTemp: any;
+
+    if ("name" in parsedInput.data.list[0]) {
+        charListTemp = parsedInput.data.list!;
+        skillListsTemp = null;
+    } else if ("base" in parsedInput.data.list[0]) {
+        charListTemp = [] as BCChar[];
+        skillListsTemp = {} as { [key: number]: BCCharSkill[] };
+        relicListsTemp = {} as { [key: number]: BCRelic[] };
+
+        for (const character of parsedInput.data.list!) {
+            charListTemp.push(character.base as BCChar);
+            skillListsTemp[character.base.id as number] =
+                character.skills as BCCharSkill[];
+            relicListsTemp[character.base.id as number] =
+                character.relics as BCRelic[];
+        }
+    } else {
+        throw new Error("Invalid Format");
+    }
+
+    const charList: BCChar[] = charListTemp;
+    const skillListsIndexed: { [key: number]: BCCharSkill[] } | null =
+        skillListsTemp;
+    const relicListsIndexed: { [key: number]: BCRelic[] } | null =
+        relicListsTemp;
 
     let output: IGOOD = {
         format: "GOOD",
@@ -112,6 +149,35 @@ function convertInput(input: string | number | string[]): IGOOD {
         weapons: [],
     };
 
+    const BCStatDict: { [id: number]: StatKey } = {
+        2: "hp", // HP
+        3: "hp_", // HP%
+        5: "atk", // ATK
+        6: "atk_", // ATK%
+        8: "def", // DEF
+        9: "def_", // DEF%
+        20: "critRate_", // CRIT Rate
+        22: "critDMG_", // CRIT DMG
+        23: "enerRech_", // ER
+        26: "heal_", // Healing Bonus
+        28: "eleMas", // EM
+        30: "physical_dmg_", // Physical DMG Bonus
+        40: "pyro_dmg_", // Pyro DMG Bonus
+        41: "electro_dmg_", // Electro DMG Bonus
+        42: "hydro_dmg_", // Hydro DMG Bonus
+        43: "dendro_dmg_", // Dendro DMG Bonus
+        44: "anemo_dmg_", // Anemo DMG Bonus
+        45: "geo_dmg_", // Geo DMG Bonus
+        46: "cryo_dmg_", // Cryo DMG Bonus
+    };
+    const BCSlotDict: { [id: number]: SlotKey } = {
+        1: "flower",
+        2: "plume",
+        3: "sands",
+        4: "goblet",
+        5: "circlet",
+    };
+
     for (const char of charList) {
         const character = char;
         const characterKey = normalizeBCKey(character.name) as CharacterKey;
@@ -119,17 +185,28 @@ function convertInput(input: string | number | string[]): IGOOD {
         const weapon = character.weapon;
         const weaponKey = normalizeBCKey(weapon.name) as WeaponKey;
 
+        let talents = {
+            auto: 1,
+            skill: 1,
+            burst: 1,
+        };
+
+        if (skillListsIndexed != null && character.id in skillListsIndexed) {
+            let characterSkills = skillListsIndexed[character.id];
+
+            talents = {
+                auto: characterSkills[0].level,
+                skill: characterSkills[1].level,
+                burst: characterSkills[2].level,
+            };
+        }
+
         const characterObj: ICharacter = {
             key: characterKey,
             level: character.level,
             ascension: deduceAscension(character.level),
             constellation: character.actived_constellation_num,
-            talent: {
-                // Cannot get this info from battle chronicles
-                auto: 1,
-                skill: 1,
-                burst: 1,
-            },
+            talent: talents,
         };
         output.characters!.push(characterObj);
 
@@ -141,21 +218,55 @@ function convertInput(input: string | number | string[]): IGOOD {
             lock: true,
             refinement: weapon.affix_level,
         };
-
         output.weapons!.push(weaponObj);
+
+        if (relicListsIndexed != null && character.id in relicListsIndexed) {
+            let characterRelics = relicListsIndexed[character.id];
+
+            let artifactList: IArtifact[] = [];
+
+            for (const relic of characterRelics) {
+                artifactList.push({
+                    level: relic.level,
+                    location: characterKey,
+                    lock: true,
+                    rarity: relic.rarity,
+                    setKey: normalizeBCKey(relic.set.name) as ArtifactSetKey,
+                    mainStatKey: BCStatDict[relic.main_property.property_type],
+                    slotKey: BCSlotDict[relic.pos],
+                    substats: relic.sub_property_list.map(
+                        (value, index, array) => {
+                            const substat: ISubstat = {
+                                key: BCStatDict[value.property_type],
+                                value: +value.value.replace(/[^0-9\.]/g, ""),
+                            };
+                            return substat;
+                        }
+                    ),
+                });
+            }
+
+            if ("artifacts" in output === false) {
+                output.artifacts = [];
+            }
+
+            output.artifacts!.push(...artifactList);
+        }
     }
+
+    console.log(output);
 
     return output;
 }
 
-function normalizeBCKey(name: BCCharacterKey | BCWeaponKey) {
+function normalizeBCKey(name: string): string {
     return name
-        .split(" ")
+        .split(/[^a-zA-Z0-9']/)
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         )
         .join("")
-        .replace(/[^A-Za-z]/, "");
+        .replace(/[^A-Za-z]/g, "");
 }
 
 function deduceAscension(level: number): number {
