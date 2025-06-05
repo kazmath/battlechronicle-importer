@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         Import GI Characters Battle Chronicles
+// @name         Import from Battle Chronicles (Alternative Method)
 // @namespace    https://github.com/kazmath/
-// @updateURL    https://github.com/kazmath/battlechronicles-converter/raw/main/bc_importer.user.js
-// @downloadURL  https://github.com/kazmath/battlechronicles-converter/raw/main/bc_importer.user.js
+// @updateURL    https://github.com/kazmath/battlechronicles-converter/raw/main/bc_importer_alt.user.js
+// @downloadURL  https://github.com/kazmath/battlechronicles-converter/raw/main/bc_importer_alt.user.js
 // @version      1.0
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicles and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicles-converter/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
-// @icon         https://fastcdn.hoyoverse.com/static-resource-v2/2024/01/12/5cf26016a442a731c95cdbf937bcc350_5794934925535376404.png
+// @icon         https://www.google.com/s2/favicons?domain=https://act.hoyolab.com/app/community-game-records-sea/index.html
 // @grant        none
 // ==/UserScript==
 
