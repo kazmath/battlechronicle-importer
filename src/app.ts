@@ -17,16 +17,98 @@ import { CharacterKey } from "./types/CharacterKey";
 import { WeaponKey } from "./types/WeaponKey";
 
 declare var bootstrap: any;
+let dragTimer: number;
 
 main();
 
 function main() {
-    fetch(
-        "https://api.codetabs.com/v1/proxy/?quest=https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getAllGameBasicInfo?launcher_id=VYTpXlbWo8&language=en-US",
-        {
-            cache: "default",
+    getBackground();
+
+    $("#inputarea").on("input", validateInput);
+    $("#inputfile").on("change", handleFile);
+    $("#inputarea-outer").on("dragover", handleDragOver);
+    $("#inputarea-outer").on("dragleave", handleDragLeave);
+    $("#inputarea-outer").on("drop", handleFile);
+
+    $("#outputarea").on("click", function (this: HTMLTextAreaElement) {
+        copyOutput();
+    });
+
+    validateInput();
+    $("#convert-btn").on("click", startConversion);
+
+    injectVersion();
+
+    // $("#copy-btn").on("click", copyOutput);
+}
+
+function handleDragOver(e: JQuery.DragOverEvent) {
+    e.preventDefault();
+    let dt = e.originalEvent?.dataTransfer;
+    if (
+        dt?.types &&
+        (dt.types.indexOf
+            ? dt.types.indexOf("Files") != -1
+            : (dt.types as any).contains("Files"))
+    ) {
+        $("#dropzone").show();
+        window.clearTimeout(dragTimer);
+    }
+}
+
+function handleFile(e: JQuery.DropEvent | JQuery.ChangeEvent) {
+    e.preventDefault();
+    $("#dropzone").hide();
+    $("#input-loading").show();
+
+    let target;
+    if (e.originalEvent != undefined && "dataTransfer" in e.originalEvent) {
+        target = e.originalEvent?.dataTransfer;
+    } else {
+        target = (e as JQuery.ChangeEvent).target;
+    }
+    const file = target?.files[0];
+
+    if (file?.type !== "application/json" || file?.type === undefined) {
+        alert(`Wrong file type: ${file?.type}`);
+        $("#input-loading").hide();
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        try {
+            const formattedString = formatJson(
+                event?.target?.result?.toString()
+            );
+            const inputAreaElem = $("#inputarea");
+            inputAreaElem.val(formattedString);
+            inputAreaElem.scrollTop(0);
+            inputAreaElem.scrollLeft(0);
+
+            validateInput();
+        } catch (error) {
+            alert(error);
         }
-    )
+        $("#input-loading").hide();
+        //holder.style.background = 'url(' + event.target.result + ') no-repeat center';
+    };
+    console.log(file);
+    reader.readAsText(file!);
+}
+
+function handleDragLeave(e: JQuery.DragLeaveEvent) {
+    dragTimer = window.setTimeout(() => {
+        $("#dropzone").hide();
+    }, 45);
+}
+
+function getBackground() {
+    const url =
+        "https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getAllGameBasicInfo?launcher_id=VYTpXlbWo8&language=en-US";
+    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`, {
+        cache: "default",
+    })
         .then((res) => res.json())
         .then(
             (res) =>
@@ -49,20 +131,6 @@ function main() {
             document.body.style.backgroundColor = "black";
         })
         .catch(console.error);
-
-    $("#inputarea").on("input", validateInput);
-    $("#outputarea").on("click", function (this: HTMLTextAreaElement) {
-        // this.setSelectionRange(0,99999999,"backward");
-
-        copyOutput();
-    });
-
-    validateInput();
-    $("#convert-btn").on("click", startConversion);
-
-    injectVersion();
-
-    // $("#copy-btn").on("click", copyOutput);
 }
 
 function startConversion() {
@@ -70,19 +138,16 @@ function startConversion() {
     const input = inputAreaElem.val();
     const outputAreaElem = $("#outputarea");
 
-    // todo: implement
     try {
         if (input == undefined) {
             throw new Error("Empty input.");
         }
-        inputAreaElem.val(
-            JSON.stringify(JSON.parse(input.toString()), null, 4)
-        );
+        inputAreaElem.val(formatJson(input.toString()));
         inputAreaElem.scrollTop(0);
         inputAreaElem.scrollLeft(0);
 
         const output = convertInput(input);
-        outputAreaElem.val(JSON.stringify(output, null, 4));
+        outputAreaElem.val(formatJson(output));
         outputAreaElem.scrollTop(0);
         outputAreaElem.scrollLeft(0);
 
@@ -95,19 +160,38 @@ function startConversion() {
     }
 }
 
+function formatJson(input: string | object | undefined): string {
+    if (input == undefined) {
+        throw new Error("Empty input.");
+    }
+
+    let inputObj;
+    if (typeof input === "string") {
+        inputObj = JSON.parse(input);
+    } else {
+        inputObj = input;
+    }
+    return JSON.stringify(inputObj, null, 4);
+}
+
 function validateInput() {
-    const content: string | undefined =
-        $<HTMLTextAreaElement>("#inputarea").val();
+    const content: string | undefined = (
+        $("#inputarea") as JQuery<HTMLTextAreaElement>
+    ).val();
+    $("#inputfile").val("");
     $("#outputarea").val("");
 
     $("#outputarea").attr("disabled", "");
     $("#outputarea").css("cursor", "not-allowed");
     // $("#copy-btn").attr("disabled", "");
     // $("#copy-btn-outer").css("cursor", "not-allowed");
+
+    $("#inputfile").removeAttr("hidden");
     try {
-        if (content == undefined) {
+        if (content == undefined || content.length <= 0) {
             throw new Error("Empty input.");
         }
+        $("#inputfile").attr("hidden", "");
         JSON.parse(content);
         $("#convert-btn").removeAttr("disabled");
     } catch (e) {
@@ -282,8 +366,6 @@ function convertInput(input: string | number | string[]): IGOOD {
             output.artifacts!.push(...artifactList);
         }
     }
-
-    console.log(output);
 
     return output;
 }

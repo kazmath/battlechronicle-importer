@@ -55,14 +55,13 @@ menu, as shown here and wait a few seconds:
 
 ### Step 4
 
-At that point, a message will be shown with either:
+At that point, a message will appear showing either:
 
-- "Output copied to clipboard", in which case you can just paste the result into
-the input field of this website; or
-- "Failed to copy to clipboard. Download the file provided to receive output.",
-meaning something went wrong when trying to copy to the system's clipboard, so,
-after clicking "OK", it will just download the file that you will have to open
-and copy-paste its contents into the input field yourself.
+- "Output copied to clipboard" — you can simply paste the result into this
+website's input field; or
+- "Failed to copy to clipboard. Download the file provided to receive output." —
+the file will be downloaded automatically, and you can just drag and drop it
+into the input field of this website.
 
 After that, just click the "convert" button.
 

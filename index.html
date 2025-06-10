@@ -57,9 +57,29 @@
 
         <main class="vh-90 vw-100 text-center d-flex flex-column flex-lg-row align-items-center">
             <div class="p-5 flex-grow-1">
-                <div class="form-floating">
-                    <textarea class="form-control input-output-areas" placeholder="Leave a comment here" id="inputarea"
+                <div id="inputarea-outer" class="form-floating">
+                    <div id="input-loading" style="display: none;">
+                        <div class="position-absolute top-50 start-50 translate-middle" style="z-index: 4;">
+                            <div class="spinner-border"></div>
+                        </div>
+                        <div class="position-absolute z-3 w-100 h-100"
+                            style="filter: blur(8px); background: rgba(255, 255, 255, 0.8);">
+                        </div>
+                    </div>
+
+                    <div id="dropzone" style="display: none;">
+                        <div class="btn btn-secondary disabled position-absolute top-50 start-50 translate-middle"
+                            style="z-index: 4;">
+                            Drop File Here
+                        </div>
+                        <div class="position-absolute z-3 w-100 h-100"
+                            style="filter: blur(8px); background: rgba(255, 255, 255, 0.8);">
+                        </div>
+                    </div>
+
+                    <textarea class="form-control input-output-areas round-top" placeholder="" id="inputarea"
                         wrap="off"></textarea>
+                    <input type="file" class="position-absolute start-0 bottom-0 p-2 w-100" id="inputfile">
                     <label for="inputarea">Input</label>
                 </div>
             </div>
