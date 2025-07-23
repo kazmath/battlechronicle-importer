@@ -33,7 +33,7 @@ Get the Tampermonkey extension/add-on on your browser of choice
 ### Step 1
 
 Download and install the userscript by clicking
-[this link](https://github.com/kazmath/battlechronicles-converter/raw/main/bc_importer.user.js),
+[this link](https://github.com/kazmath/battlechronicles-importer/raw/main/bc_importer.user.js),
 then the "Install" button in the new tab that should have opened.
 
 ![Step 1](doc/script_m1_step1.png)
@@ -41,10 +41,10 @@ then the "Install" button in the new tab that should have opened.
 ### <a name="reference-1"/>Step 2
 
 Go to the
-[Battle Chronicles Website](https://act.hoyolab.com/app/community-game-records-sea/index.html)
+[Battle Chronicle Website](https://act.hoyolab.com/app/community-game-records-sea/index.html)
 and ensure you are logged in with the account you want to import from.
 
-![Battle Chronicles page](doc/manual_step0.png)
+![Battle Chronicle page](doc/manual_step0.png)
 
 ### Step 3
 
@@ -81,7 +81,7 @@ and paste where you need.
 ### Step 0
 
 Download and install the userscript by clicking
-[this link](https://github.com/kazmath/battlechronicles-converter/raw/main/bc_importer_alt.user.js),
+[this link](https://github.com/kazmath/battlechronicles-importer/raw/main/bc_importer_alt.user.js),
 then the "Add extension" button in the dialog that should have opened.
 
 <img style="width:500px;" alt="Add extension" src="doc/script_m2_step0.png"/>
@@ -89,7 +89,7 @@ then the "Add extension" button in the dialog that should have opened.
 ### Step 1
 
 Follow the <a target="_self" href="#reference-1">step 2</a> from Method 1 to
-get to the Battle Chronicles page.
+get to the Battle Chronicle page.
 
 ### Step 2
 

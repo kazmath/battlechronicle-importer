@@ -1,10 +1,11 @@
 {
   "name": "battlechronicles-importer",
-  "version": "2.6",
+  "version": "2.7",
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc --watch",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "lockfile-update": "npm i --package-lock-only"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",

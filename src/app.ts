@@ -257,7 +257,7 @@ function convertInput(input: string | number | string[]): IGOOD {
     let output: IGOOD = {
         format: "GOOD",
         version: 2,
-        source: "BattleChroniclesConverter",
+        source: "BattleChroniclesImporter",
         characters: [],
         weapons: [],
     };
@@ -414,7 +414,7 @@ function injectVersion() {
         `${href.substring(0, href.lastIndexOf("/"))}/package.json`,
         function (data) {
             // Inject the version from package.json into the page
-            $("#package-version").replaceWith(data.version);
+            $("#package-version").replaceWith(`v${data.version}`);
         }
     ).fail(function () {
         console.error("Error loading package.json");

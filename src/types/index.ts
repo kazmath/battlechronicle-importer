@@ -15,7 +15,7 @@ export { BCChar, BCCharSkill, BCCharacterKey, BCRelic, BCWeaponKey };
 export interface IGOOD {
     format: "GOOD"; // A way for people to recognize this format.
     version: 2; // GOOD API version.
-    source: "BattleChroniclesConverter"; // The app that generates this data.
+    source: "BattleChroniclesImporter"; // The app that generates this data.
     characters?: ICharacter[];
     artifacts?: IArtifact[];
     weapons?: IWeapon[];

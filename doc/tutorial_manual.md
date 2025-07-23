@@ -15,12 +15,12 @@ to the respective weapon type's equivalent of the default weapon
 
 If you want to bypass these limitations without installing the userscript, you
 can always copy-paste the
-[script's source code](https://github.com/kazmath/battlechronicles-converter/blob/main/bc_importer_alt.user.js)
+[script's source code](https://github.com/kazmath/battlechronicles-importer/blob/main/bc_importer_alt.user.js)
 into your devtools console (Only the `_alt` script works without tampermonkey).
 
 ### Step 0
 
-Go to the [Battle Chronicles Website](https://act.hoyolab.com/app/community-game-records-sea/index.html) and ensure you are logged
+Go to the [Battle Chronicle Website](https://act.hoyolab.com/app/community-game-records-sea/index.html) and ensure you are logged
 in with the account you want to import from.
 
 ![Step 0](doc/manual_step0.png)
