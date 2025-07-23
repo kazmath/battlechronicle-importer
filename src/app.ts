@@ -257,7 +257,7 @@ function convertInput(input: string | number | string[]): IGOOD {
     let output: IGOOD = {
         format: "GOOD",
         version: 2,
-        source: "BattleChroniclesImporter",
+        source: "BattleChronicleImporter",
         characters: [],
         weapons: [],
     };

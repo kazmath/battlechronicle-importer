@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Import from Battle Chronicle
 // @namespace    https://github.com/kazmath/
-// @updateURL    https://github.com/kazmath/battlechronicles-importer/raw/main/bc_importer.user.js
-// @downloadURL  https://github.com/kazmath/battlechronicles-importer/raw/main/bc_importer.user.js
+// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
+// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
 // @version      1.1
-// @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicles-importer/.
+// @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
 // @icon         https://www.google.com/s2/favicons?domain=https://act.hoyolab.com/app/community-game-records-sea/index.html

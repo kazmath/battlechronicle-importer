@@ -5,7 +5,7 @@ import {
     BCCharacterKey,
     BCRelic,
     BCWeaponKey,
-} from "./BattleChroniclesTypes";
+} from "./BattleChronicleTypes";
 import { CharacterKey } from "./CharacterKey";
 import { MaterialKey } from "./MaterialKey";
 import { WeaponKey } from "./WeaponKey";
@@ -15,7 +15,7 @@ export { BCChar, BCCharSkill, BCCharacterKey, BCRelic, BCWeaponKey };
 export interface IGOOD {
     format: "GOOD"; // A way for people to recognize this format.
     version: 2; // GOOD API version.
-    source: "BattleChroniclesImporter"; // The app that generates this data.
+    source: "BattleChronicleImporter"; // The app that generates this data.
     characters?: ICharacter[];
     artifacts?: IArtifact[];
     weapons?: IWeapon[];

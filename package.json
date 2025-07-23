@@ -1,5 +1,5 @@
 {
-  "name": "battlechronicles-importer",
+  "name": "battlechronicle-importer",
   "version": "2.7",
   "scripts": {
     "build": "npx tsc",

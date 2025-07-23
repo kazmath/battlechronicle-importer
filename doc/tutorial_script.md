@@ -33,7 +33,7 @@ Get the Tampermonkey extension/add-on on your browser of choice
 ### Step 1
 
 Download and install the userscript by clicking
-[this link](https://github.com/kazmath/battlechronicles-importer/raw/main/bc_importer.user.js),
+[this link](https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js),
 then the "Install" button in the new tab that should have opened.
 
 ![Step 1](doc/script_m1_step1.png)
@@ -81,7 +81,7 @@ and paste where you need.
 ### Step 0
 
 Download and install the userscript by clicking
-[this link](https://github.com/kazmath/battlechronicles-importer/raw/main/bc_importer_alt.user.js),
+[this link](https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js),
 then the "Add extension" button in the dialog that should have opened.
 
 <img style="width:500px;" alt="Add extension" src="doc/script_m2_step0.png"/>
