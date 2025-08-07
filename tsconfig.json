@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5", // Targeting ES5 for wide browser compatibility
+    "target": "ES6", // Targeting ES6 for wide browser compatibility
     "module": "ESNext", // Use ESNext modules for imports/exports
     "moduleResolution": "Node", // Use Node-style module resolution (helps with imports)
     "outDir": "./dist", // Output directory for compiled JavaScript files
