@@ -117,18 +117,15 @@ function getBackground() {
                 ).backgrounds[0].background.url
         )
         .then((url) => {
-            const img = document.createElement("img");
-            img.src = url;
-            img.style.position = "fixed";
-            img.style.top = "0";
-            img.style.width = "100vw";
-            img.style.height = "100vh";
-            img.style.objectFit = "cover";
-            img.style.filter = "blur(4px)";
-            img.style.zIndex = "-1";
-            document.body.appendChild(img);
-            document.body.style.backgroundImage = "none";
-            document.body.style.backgroundColor = "black";
+            Object.assign(document.body.style, {
+                backgroundColor: "black",
+                backgroundImage: `url("${url}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundAttachment: "fixed",
+                backdropFilter: "blur(0.8vh)",
+            });
         })
         .catch(console.error);
 }
