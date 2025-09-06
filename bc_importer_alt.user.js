@@ -3,7 +3,7 @@
 // @namespace    https://github.com/kazmath/
 // @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js
 // @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js
-// @version      1.0
+// @version      1.2
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
@@ -13,7 +13,32 @@
 
 "use strict";
 
-function main() {
+waitForElm(".account-block").then((elm) => {
+    let btn = document.createElement("button");
+    btn.innerText = "Run Importer";
+    btn.id = "gi-bc-importer-button";
+    btn.onclick = btnCallback;
+    elm.appendChild(btn);
+});
+
+async function btnCallback(e) {
+    e.target.disabled = true;
+    e.target.innerText = "Importing...";
+    main()
+        .catch((e) => {
+            alert(e);
+        })
+        .finally(() => {
+            document.querySelector("html").style.cursor = "";
+            e.target.disabled = false;
+            e.target.innerText = "Run Importer";
+        });
+}
+
+async function main() {
+    const apiURL =
+        "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/list";
+
     const uid = document
         .querySelectorAll("p.uid")[0]
         .innerText.replace(/UID/, "");
@@ -61,8 +86,8 @@ function main() {
         );
     }
 
-    fetch(
-        "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/list",
+    return fetch(
+        apiURL,
         {
             method: "POST",
             body: JSON.stringify({
@@ -159,20 +184,4 @@ function waitForElm(selector) {
             subtree: true,
         });
     });
-}
-
-waitForElm(".account-block").then((elm) => {
-    let btn = document.createElement("button");
-    btn.innerText = "Run Importer";
-    btn.id = "gi-bc-importer-button--";
-    btn.onclick = btnCallback;
-    elm.appendChild(btn);
-});
-
-function btnCallback(e) {
-    try {
-        main();
-    } catch (error) {
-        alert(error);
-    }
 }

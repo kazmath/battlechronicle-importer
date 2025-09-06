@@ -3,7 +3,7 @@
 // @namespace    https://github.com/kazmath/
 // @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
 // @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
-// @version      1.1
+// @version      1.2
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
@@ -14,7 +14,24 @@
 
 "use strict";
 
-function main() {
+if (document.querySelectorAll(".account-block").length <= 0) {
+    alert("Page still loading, wait a few seconds and try again.");
+    return;
+}
+
+document.querySelector("html").style.cursor = "wait";
+main()
+    .catch((e) => {
+        alert(e);
+    })
+    .finally(() => {
+        document.querySelector("html").style.cursor = "";
+    });
+
+async function main() {
+    const apiURL =
+        "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/list";
+
     const uid = document
         .querySelectorAll("p.uid")[0]
         .innerText.replace(/UID/, "");
@@ -62,8 +79,8 @@ function main() {
         );
     }
 
-    fetch(
-        "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/list",
+    return fetch(
+        apiURL,
         {
             method: "POST",
             body: JSON.stringify({
@@ -139,10 +156,4 @@ function saveFile(filename, data) {
     document.body.appendChild(elem);
     elem.click();
     document.body.removeChild(elem);
-}
-
-try {
-    main();
-} catch (error) {
-    alert(error);
 }
