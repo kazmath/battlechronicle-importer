@@ -117,7 +117,7 @@ function getBackground() {
     });
 }
 
-function getBackgroundLocale2(): string {
+function getBackgroundLocale(): string {
     const supportedLocales = [
         "de-de", // German
         "en-us", // English
