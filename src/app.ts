@@ -117,7 +117,7 @@ function getBackground() {
     });
 }
 
-function getBackgroundLocale(): string {
+function getBackgroundLocale2(): string {
     const supportedLocales = [
         "de-de", // German
         "en-us", // English
@@ -135,31 +135,16 @@ function getBackgroundLocale(): string {
         "zh-cn", // Chinese (Simplified)
         "zh-tw", // Chinese (Traditional)
     ];
-    const browserLocale = navigator.languages.map((it) => it.toLowerCase())[0];
 
-    // locale is xx-yy where xx is language code and yy is country code
     const languageOnly = (locale: string) => locale.split("-")[0];
-
-    const browserLanguage = languageOnly(browserLocale);
     const supportedLanguages = supportedLocales.map(languageOnly);
 
-    const languageMatches = supportedLanguages.filter(
-        (el) => el == browserLanguage
+    return (
+        navigator.languages
+            .map((it) => it.toLowerCase())
+            .find((it) => supportedLanguages.includes(languageOnly(it))) ??
+        "en-us"
     );
-
-    if (languageMatches.length == 1) {
-        const language = languageMatches[0];
-        const localeMatch = supportedLocales.find((el) =>
-            el.startsWith(language)
-        )!;
-        if (localeMatch) return localeMatch;
-    } else if (languageMatches.length > 1) {
-        const localeMatch = supportedLocales.find((el) => el == browserLocale);
-        if (localeMatch) return localeMatch;
-    }
-
-    // default to english
-    return "en-us";
 }
 
 function startConversion() {
