@@ -104,30 +104,62 @@ function handleDragLeave(e: JQuery.DragLeaveEvent) {
 }
 
 function getBackground() {
-    const url =
-        "https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/getAllGameBasicInfo?launcher_id=VYTpXlbWo8&language=en-US";
-    fetch(`https://api.codetabs.com/v1/proxy/?quest=${url}`, {
-        cache: "default",
-    })
-        .then((res) => res.json())
-        .then(
-            (res) =>
-                res.data.game_info_list.find(
-                    (e: any) => e.game.biz == "hk4e_global"
-                ).backgrounds[0].background.url
-        )
-        .then((url) => {
-            Object.assign(document.body.style, {
-                backgroundColor: "black",
-                backgroundImage: `url("${url}")`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundAttachment: "fixed",
-                backdropFilter: "blur(0.8vh)",
-            });
-        })
-        .catch(console.error);
+    const url = new URL("https://hyvgnshimg-proxy.deno.dev/");
+    url.searchParams.set("language", getBackgroundLocale());
+    Object.assign(document.body.style, {
+        backgroundColor: "black",
+        backgroundImage: `url("${url}")`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backdropFilter: "blur(0.8vh)",
+    });
+}
+
+function getBackgroundLocale(): string {
+    const supportedLocales = [
+        "de-de", // German
+        "en-us", // English
+        "es-es", // Spanish
+        "fr-fr", // French
+        "id-id", // Indonesian
+        "it-it", // Italian
+        "ja-jp", // Japanese
+        "ko-kr", // Korean
+        "pt-pt", // Portuguese
+        "ru-ru", // Russian
+        "th-th", // Thai
+        "tr-tr", // Turkish
+        "vi-vn", // Vietnamese
+        "zh-cn", // Chinese (Simplified)
+        "zh-tw", // Chinese (Traditional)
+    ];
+    const browserLocale = navigator.languages.map((it) => it.toLowerCase())[0];
+
+    // locale is xx-yy where xx is language code and yy is country code
+    const languageOnly = (locale: string) => locale.split("-")[0];
+
+    const browserLanguage = languageOnly(browserLocale);
+    const supportedLanguages = supportedLocales.map(languageOnly);
+
+    const languageMatches = supportedLanguages.filter(
+        (el) => el == browserLanguage
+    );
+
+    if (languageMatches.length == 1) {
+        const language = languageMatches[0];
+        const localeMatch = supportedLocales.find((el) =>
+            el.startsWith(language)
+        )!;
+        if (localeMatch) return localeMatch;
+    } else if (languageMatches.length > 1) {
+        const localeMatch = supportedLocales.find((el) => el == browserLocale);
+        if (localeMatch) return localeMatch;
+    }
+
+    // default to english
+    return "en-us";
 }
 
 function startConversion() {
