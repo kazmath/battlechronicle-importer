@@ -13,6 +13,7 @@ import {
     StatKey,
 } from "./types";
 import { ArtifactSetKey } from "./types/ArtifactSetKey";
+import { BCConstellation } from "./types/BattleChronicleTypes";
 import { CharacterKey } from "./types/CharacterKey";
 import { WeaponKey } from "./types/WeaponKey";
 
@@ -242,6 +243,7 @@ function convertInput(input: string | number | string[]): IGOOD {
     let charListTemp: any;
     let skillListsTemp: any;
     let relicListsTemp: any;
+    let consListsTemp: any;
 
     if ("name" in parsedInput.data.list[0]) {
         charListTemp = parsedInput.data.list!;
@@ -250,13 +252,19 @@ function convertInput(input: string | number | string[]): IGOOD {
         charListTemp = [] as BCChar[];
         skillListsTemp = {} as { [key: number]: BCCharSkill[] };
         relicListsTemp = {} as { [key: number]: BCRelic[] };
+        consListsTemp = {} as { [key: number]: BCConstellation[] };
 
         for (const character of parsedInput.data.list!) {
             charListTemp.push(character.base as BCChar);
+
             skillListsTemp[character.base.id as number] =
                 character.skills as BCCharSkill[];
+
             relicListsTemp[character.base.id as number] =
                 character.relics as BCRelic[];
+
+            consListsTemp[character.base.id as number] =
+                character.constellations as BCConstellation[];
         }
     } else {
         throw new Error("Invalid Format");
@@ -267,6 +275,9 @@ function convertInput(input: string | number | string[]): IGOOD {
         skillListsTemp;
     const relicListsIndexed: { [key: number]: BCRelic[] } | null =
         relicListsTemp;
+    const consListsIndexed: {
+        [key: number]: BCConstellation[];
+    } | null = consListsTemp;
 
     let output: IGOOD = {
         format: "GOOD",
@@ -309,6 +320,8 @@ function convertInput(input: string | number | string[]): IGOOD {
         const character = char;
         const characterKey = normalizeBCKey(character.name) as CharacterKey;
 
+        const constellationNum = character.actived_constellation_num;
+
         const weapon = character.weapon;
         const weaponKey = normalizeBCKey(weapon.name) as WeaponKey;
 
@@ -326,13 +339,77 @@ function convertInput(input: string | number | string[]): IGOOD {
                 skill: characterSkills[1].level,
                 burst: characterSkills[2].level,
             };
+
+            if (consListsIndexed != null && character.id in consListsIndexed) {
+                let characterConstellations = consListsIndexed[character.id];
+
+                if (constellationNum >= 3) {
+                    const C3 = characterConstellations.find(
+                        (constellation) => constellation.pos === 3
+                    )!;
+                    const C3targetedSkill = C3.effect.match(
+                        /<color=#[0-9a-fA-F]+>([^<]+)<\/color>/
+                    )![1];
+
+                    const indexToChange = characterSkills.findIndex(
+                        (skill) => skill.name === C3targetedSkill
+                    );
+
+                    switch (indexToChange) {
+                        case 0:
+                            talents.auto -= 3;
+                            break;
+                        case 1:
+                            talents.skill -= 3;
+                            break;
+                        case 2:
+                            talents.burst -= 3;
+                            break;
+                        default:
+                            console.error(
+                                "Error: Constellation 3 does not correspond to any talent"
+                            );
+                            break;
+                    }
+                }
+
+                if (constellationNum >= 5) {
+                    const C5 = characterConstellations.find(
+                        (constellation) => constellation.pos === 5
+                    )!;
+                    const C5targetedSkill = C5.effect.match(
+                        /<color=#[0-9a-fA-F]+>([^<]+)<\/color>/
+                    )![1];
+
+                    const indexToChange = characterSkills.findIndex(
+                        (skill) => skill.name === C5targetedSkill
+                    );
+
+                    switch (indexToChange) {
+                        case 0:
+                            talents.auto -= 3;
+                            break;
+                        case 1:
+                            talents.skill -= 3;
+                            break;
+                        case 2:
+                            talents.burst -= 3;
+                            break;
+                        default:
+                            console.error(
+                                "Error: Constellation 5 does not correspond to any talent"
+                            );
+                            break;
+                    }
+                }
+            }
         }
 
         const characterObj: ICharacter = {
             key: characterKey,
             level: character.level,
             ascension: deduceAscension(character.level),
-            constellation: character.actived_constellation_num,
+            constellation: constellationNum,
             talent: talents,
         };
         output.characters!.push(characterObj);
