@@ -1,41 +1,32 @@
 // ==UserScript==
-// @name         Import from Battle Chronicle
+// @name         Import from Battle Chronicle (Context Menu)
 // @namespace    https://github.com/kazmath/
-// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
-// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
-// @version      1.2
+// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
+// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
+// @version      1.3
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
 // @icon         https://www.google.com/s2/favicons?domain=https://act.hoyolab.com/app/community-game-records-sea/index.html
 // @grant        none
+// @run-at       context-menu
 // ==/UserScript==
 
 "use strict";
 
-waitForElm(".account-block").then((elm) => {
-    let btn = document.createElement("button");
-    btn.innerText = "Run Importer";
-    btn.id = "gi-bc-importer-button";
-    btn.onclick = btnCallback;
-    elm.appendChild(btn);
-});
-
-async function btnCallback(e) {
-    e.target.disabled = true;
-    e.target.innerText = "Importing...";
-    document.querySelector("html").style.cursor = "wait";
-
-    main()
-        .catch((e) => {
-            alert(e);
-        })
-        .finally(() => {
-            e.target.disabled = false;
-            e.target.innerText = "Copy JSON";
-            document.querySelector("html").style.cursor = "";
-        });
+if (document.querySelectorAll(".account-block").length <= 0) {
+    alert("Page still loading, wait a few seconds and try again.");
+    return;
 }
+
+document.querySelector("html").style.cursor = "wait";
+main()
+    .catch((e) => {
+        alert(e);
+    })
+    .finally(() => {
+        document.querySelector("html").style.cursor = "";
+    });
 
 async function main() {
     if (window["__bc-to-good_userscript_jsonString__"]) {
@@ -172,24 +163,3 @@ function copyToClipboard(jsonString) {
 //     elem.click();
 //     document.body.removeChild(elem);
 // }
-
-function waitForElm(selector) {
-    return new Promise((resolve) => {
-        if (document.querySelector(selector)) {
-            return resolve(document.querySelector(selector));
-        }
-
-        const observer = new MutationObserver((mutations) => {
-            if (document.querySelector(selector)) {
-                observer.disconnect();
-                resolve(document.querySelector(selector));
-            }
-        });
-
-        // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-        });
-    });
-}
