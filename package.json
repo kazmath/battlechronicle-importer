@@ -1,6 +1,6 @@
 {
   "name": "battlechronicle-importer",
-  "version": "3.0",
+  "version": "3.1",
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc --watch",

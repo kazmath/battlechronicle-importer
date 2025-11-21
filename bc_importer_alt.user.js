@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Import from Battle Chronicle (Alternative Method)
+// @name         Import from Battle Chronicle
 // @namespace    https://github.com/kazmath/
-// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js
-// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js
+// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
+// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
 // @version      1.2
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
@@ -24,18 +24,25 @@ waitForElm(".account-block").then((elm) => {
 async function btnCallback(e) {
     e.target.disabled = true;
     e.target.innerText = "Importing...";
+    document.querySelector("html").style.cursor = "wait";
+
     main()
         .catch((e) => {
             alert(e);
         })
         .finally(() => {
-            document.querySelector("html").style.cursor = "";
             e.target.disabled = false;
-            e.target.innerText = "Run Importer";
+            e.target.innerText = "Copy JSON";
+            document.querySelector("html").style.cursor = "";
         });
 }
 
 async function main() {
+    if (window["__bc-to-good_userscript_jsonString__"]) {
+        copyToClipboard(window["__bc-to-good_userscript_jsonString__"]);
+        return;
+    }
+
     const apiURL =
         "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/list";
 
@@ -86,23 +93,20 @@ async function main() {
         );
     }
 
-    return fetch(
-        apiURL,
-        {
-            method: "POST",
-            body: JSON.stringify({
-                server: server,
-                role_id: uid,
-            }),
-            headers: {
-                Accept: "application/json",
-                "x-rpc-language": "en-us",
-                "x-rpc-lang": "en-us",
-            },
-            credentials: "include",
-            referrer: "https://act.hoyolab.com/",
-        }
-    )
+    return fetch(apiURL, {
+        method: "POST",
+        body: JSON.stringify({
+            server: server,
+            role_id: uid,
+        }),
+        headers: {
+            Accept: "application/json",
+            "x-rpc-language": "en-us",
+            "x-rpc-lang": "en-us",
+        },
+        credentials: "include",
+        referrer: "https://act.hoyolab.com/",
+    })
         .then((e) => e.json())
         .then((e) => {
             const id_list = e.data.list.map((value) => {
@@ -138,32 +142,36 @@ async function main() {
                 localStorage.removeItem("__bc-to-good_userscript_ratelimit__");
                 console.log("30s passed, no longer rate limited");
             }, 30 * 1000);
-            navigator.clipboard
-                .writeText(JSON.stringify(e))
-                .then((_) => alert("Output copied to clipboard"))
-                .catch((_) => {
-                    alert(
-                        "Failed to copy to clipboard. Download the file provided to receive output."
-                    );
-                    saveFile("bc_export.json", JSON.stringify(e));
-                });
+
+            const jsonString = JSON.stringify(e).trim();
+            window["__bc-to-good_userscript_jsonString__"] = jsonString;
+            copyToClipboard(jsonString);
         })
         .catch((e) => {
             throw new Error(e);
         });
 }
 
-function saveFile(filename, data) {
-    const blob = new Blob([data], {
-        type: "application/json",
-    });
-    const elem = window.document.createElement("a");
-    elem.href = window.URL.createObjectURL(blob);
-    elem.download = filename;
-    document.body.appendChild(elem);
-    elem.click();
-    document.body.removeChild(elem);
+function copyToClipboard(jsonString) {
+    return navigator.clipboard
+        .writeText(jsonString)
+        .then((_) => alert("Output copied to clipboard"))
+        .catch((_) => {
+            alert("Failed to copy to clipboard. Try again in a few seconds.");
+        });
 }
+
+// function saveFile(filename, data) {
+//     const blob = new Blob([data], {
+//         type: "application/json",
+//     });
+//     const elem = window.document.createElement("a");
+//     elem.href = window.URL.createObjectURL(blob);
+//     elem.download = filename;
+//     document.body.appendChild(elem);
+//     elem.click();
+//     document.body.removeChild(elem);
+// }
 
 function waitForElm(selector) {
     return new Promise((resolve) => {

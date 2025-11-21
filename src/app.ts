@@ -505,7 +505,7 @@ function injectVersion() {
         `${href.substring(0, href.lastIndexOf("/"))}/package.json`,
         function (data) {
             // Inject the version from package.json into the page
-            $("#package-version").replaceWith(`v${data.version}`);
+            $("#package-version").html(`v${data.version}`);
         }
     ).fail(function () {
         console.error("Error loading package.json");
