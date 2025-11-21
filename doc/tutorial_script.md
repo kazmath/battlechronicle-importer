@@ -42,10 +42,10 @@ embedded in the page.
         <ol>
           <li>Install one of the 2 userscripts: <ul>
               <li> <a target="_self"
-                  href="https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js">Embedded
+                  href="https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js">Embedded
                   button method</a> (Works without <a target="_self" href="#get-tampermonkey">Tampermonkey</a>) </li>
               <li> <a target="_self"
-                  href="https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js">Context menu
+                  href="https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js">Context menu
                   method</a> (Needs <a target="_self" href="#get-tampermonkey">Tampermonkey</a>) </li>
             </ul>
           </li>
@@ -82,7 +82,7 @@ Get the Tampermonkey extension/add-on on your browser of choice
 ### Step 1
 
 Download and install the userscript by clicking
-[this link](https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js),
+[this link](https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js),
 then the "Install" button in the new tab that should have opened.
 
 ![Step 1](doc/script_m1_step1.png)
@@ -130,7 +130,7 @@ and paste where you need.
 ### Step 0
 
 Download and install the userscript by clicking
-[this link](https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_alt.user.js),
+[this link](https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js),
 then the "Add extension" button in the dialog that should have opened.
 
 <img style="width:500px;margin-bottom:1em;" alt="Add extension" src="doc/script_m2_step0.png"/>
