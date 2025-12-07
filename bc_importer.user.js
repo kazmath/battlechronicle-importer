@@ -52,29 +52,25 @@ async function main() {
         .querySelectorAll("p.uid")[0]
         .innerText.replace(/UID/, "");
 
-    let server = "";
-    if (uid.startsWith("1") || uid.startsWith("2") || uid.startsWith("3")) {
-        throw new Error("Chinese servers not supported");
-    }
-
-    if (uid.startsWith("5")) {
-        throw new Error("Chinese servers not supported");
-    }
-
-    if (uid.startsWith("6")) {
-        server = "os_usa";
-    }
-
-    if (uid.startsWith("7")) {
-        server = "os_euro";
-    }
-
-    if (uid.startsWith("8") || uid.startsWith("18")) {
-        server = "os_asia";
-    }
-
-    if (uid.startsWith("9")) {
-        server = "os_cht";
+    let server;
+    switch(uid.padStart(10, "0").substring(0, 2)){
+        case "01":
+        case "02":
+        case "03":
+        case "05":
+            throw new Error("Chinese servers are not supported");
+        case "06":
+            server = "os_usa"; break;
+        case "07":
+            server = "os_euro"; break;
+        case "08":
+        case "18":
+            server = "os_asia"; break;
+        case "09":
+            server = "os_cht"; break;
+        default:
+            // unreachable under normal conditions
+            throw new Error("Invalid UID");
     }
 
     const lastRequestDate = localStorage.getItem(
