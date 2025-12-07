@@ -15,7 +15,7 @@ to the respective weapon type's equivalent of the default weapon
 
 If you want to bypass these limitations without installing the userscript, you
 can always copy-paste the
-[script's source code](https://github.com/kazmath/battlechronicle-importer/blob/main/bc_importer_alt.user.js)
+[script's source code](https://github.com/kazmath/battlechronicle-importer/blob/main/bc_importer.user.js)
 into your devtools console (Only the `_alt` script works without tampermonkey).
 
 ### Step 0

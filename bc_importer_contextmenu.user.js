@@ -3,7 +3,7 @@
 // @namespace    https://github.com/kazmath/
 // @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
 // @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
-// @version      1.3
+// @version      1.4
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
@@ -13,6 +13,8 @@
 // ==/UserScript==
 
 "use strict";
+
+let json_cache;
 
 if (document.querySelectorAll(".account-block").length <= 0) {
     alert("Page still loading, wait a few seconds and try again.");
@@ -29,8 +31,8 @@ main()
     });
 
 async function main() {
-    if (window["__bc-to-good_userscript_jsonString__"]) {
-        copyToClipboard(window["__bc-to-good_userscript_jsonString__"]);
+    if (json_cache) {
+        copyToClipboard(json_cache);
         return;
     }
 
@@ -59,15 +61,11 @@ async function main() {
     }
 
     if (uid.startsWith("8") || uid.startsWith("18")) {
-        throw new Error(
-            "Region unsupported as of now. Please open an issue if you are from this region and want to help."
-        );
+        server = "os_asia";
     }
 
     if (uid.startsWith("9")) {
-        throw new Error(
-            "Region unsupported as of now. Please open an issue if you are from this region and want to help."
-        );
+        server = "os_cht";
     }
 
     const lastRequestDate = localStorage.getItem(
@@ -135,7 +133,7 @@ async function main() {
             }, 30 * 1000);
 
             const jsonString = JSON.stringify(e).trim();
-            window["__bc-to-good_userscript_jsonString__"] = jsonString;
+            json_cache = jsonString;
             copyToClipboard(jsonString);
         })
         .catch((e) => {
