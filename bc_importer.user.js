@@ -60,14 +60,18 @@ async function main() {
         case "05":
             throw new Error("Chinese servers are not supported");
         case "06":
-            server = "os_usa"; break;
+            server = "os_usa";
+            break;
         case "07":
-            server = "os_euro"; break;
+            server = "os_euro";
+            break;
         case "08":
         case "18":
-            server = "os_asia"; break;
+            server = "os_asia";
+            break;
         case "09":
-            server = "os_cht"; break;
+            server = "os_cht";
+            break;
         default:
             // unreachable under normal conditions
             throw new Error("Invalid UID");
