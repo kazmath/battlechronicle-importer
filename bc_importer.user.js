@@ -53,6 +53,7 @@ async function main() {
         .innerText.replace(/UID/, "");
 
     let server;
+    // normalize to 10-long and take region (first 2 chars)
     switch(uid.padStart(10, "0").substring(0, 2)){
         case "01":
         case "02":
