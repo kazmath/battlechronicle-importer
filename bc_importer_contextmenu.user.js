@@ -3,7 +3,7 @@
 // @namespace    https://github.com/kazmath/
 // @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
 // @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
-// @version      1.4
+// @version      1.5
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
