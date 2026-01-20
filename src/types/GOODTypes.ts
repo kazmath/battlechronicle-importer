@@ -1,3 +1,10 @@
+// TODO
+// Convert GOOD format v2 to v3
+// What changed in version 3:
+// - Adds new fields to IArtifact to represent new in-game properties, store initial rolls for reroll information, and help differentiate between 3 and 4-line starts for 5* artifacts. All other fields remain the same. V3 is backwards compatible with V2.
+// - New fields for IArtifact: totalRolls, astralMark, elixirCrafted, unactivatedSubstats
+// - New field for ISubstat: initialValue
+
 import {
     ArtifactSetKey,
     CharacterKey,

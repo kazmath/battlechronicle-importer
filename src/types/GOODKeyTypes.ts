@@ -1,4 +1,168 @@
 // Updated as of "Version 5.4"
+// TODO
+// Write a script to fetch updated info from
+// hakush.in and automatically edit this file with it.
+// These are the API endpoints to use
+// - ArtifactSetKey
+//   - https://api.hakush.in/gi/data/artifact.json
+// - CharacterKey
+//   - https://api.hakush.in/gi/data/character.json
+// - MaterialKey
+//   - https://api.hakush.in/gi/data/en/item.json
+// - WeaponKey
+//   - https://api.hakush.in/gi/data/weapon.json
+
+export type ArtifactSetKey =
+    | "Adventurer" //Adventurer
+    | "ArchaicPetra" //Archaic Petra
+    | "Berserker" //Berserker
+    | "BlizzardStrayer" //Blizzard Strayer
+    | "BloodstainedChivalry" //Bloodstained Chivalry
+    | "BraveHeart" //Brave Heart
+    | "CrimsonWitchOfFlames" //Crimson Witch of Flames
+    | "DeepwoodMemories" //Deepwood Memories
+    | "DefendersWill" //Defender's Will
+    | "DesertPavilionChronicle" //Desert Pavilion Chronicle
+    | "EchoesOfAnOffering" //Echoes of an Offering
+    | "EmblemOfSeveredFate" //Emblem of Severed Fate
+    | "FlowerOfParadiseLost" //Flower of Paradise Lost
+    | "FragmentOfHarmonicWhimsy" //Fragment of Harmonic Whimsy
+    | "Gambler" //Gambler
+    | "GildedDreams" //Gilded Dreams
+    | "GladiatorsFinale" //Gladiator's Finale
+    | "GoldenTroupe" //Golden Troupe
+    | "HeartOfDepth" //Heart of Depth
+    | "HuskOfOpulentDreams" //Husk of Opulent Dreams
+    | "Instructor" //Instructor
+    | "Lavawalker" //Lavawalker
+    | "LuckyDog" //Lucky Dog
+    | "MaidenBeloved" //Maiden Beloved
+    | "MarechausseeHunter" //Marechaussee Hunter
+    | "MartialArtist" //Martial Artist
+    | "NighttimeWhispersInTheEchoingWoods" //Nighttime Whispers in the Echoing Woods
+    | "NoblesseOblige" //Noblesse Oblige
+    | "NymphsDream" //Nymph's Dream
+    | "ObsidianCodex" //Obsidian Codex
+    | "OceanHuedClam" //Ocean-Hued Clam
+    | "PaleFlame" //Pale Flame
+    | "PrayersForDestiny" //Prayers for Destiny
+    | "PrayersForIllumination" //Prayers for Illumination
+    | "PrayersForWisdom" //Prayers for Wisdom
+    | "PrayersToSpringtime" //Prayers to Springtime
+    | "ResolutionOfSojourner" //Resolution of Sojourner
+    | "RetracingBolide" //Retracing Bolide
+    | "Scholar" //Scholar
+    | "ScrollOfTheHeroOfCinderCity" //Scroll of the Hero of Cinder City
+    | "ShimenawasReminiscence" //Shimenawa's Reminiscence
+    | "SongOfDaysPast" //Song of Days Past
+    | "TenacityOfTheMillelith" //Tenacity of the Millelith
+    | "TheExile" //The Exile
+    | "ThunderingFury" //Thundering Fury
+    | "Thundersoother" //Thundersoother
+    | "TinyMiracle" //Tiny Miracle
+    | "TravelingDoctor" //Traveling Doctor
+    | "UnfinishedReverie" //Unfinished Reverie
+    | "VermillionHereafter" //Vermillion Hereafter
+    | "ViridescentVenerer" //Viridescent Venerer
+    | "VourukashasGlow" //Vourukasha's Glow
+    | "WanderersTroupe"; //Wanderer's Troupe
+
+export type CharacterKey =
+    | "Albedo" //Albedo
+    | "Alhaitham" //Alhaitham
+    | "Aloy" //Aloy
+    | "Amber" //Amber
+    | "AratakiItto" //Arataki Itto
+    | "Arlecchino" //Arlecchino
+    | "Baizhu" //Baizhu
+    | "Barbara" //Barbara
+    | "Beidou" //Beidou
+    | "Bennett" //Bennett
+    | "Candace" //Candace
+    | "Charlotte" //Charlotte
+    | "Chasca" //Chasca
+    | "Chevreuse" //Chevreuse
+    | "Chiori" //Chiori
+    | "Chongyun" //Chongyun
+    | "Citlali" //Citlali
+    | "Clorinde" //Clorinde
+    | "Collei" //Collei
+    | "Cyno" //Cyno
+    | "Dehya" //Dehya
+    | "Diluc" //Diluc
+    | "Diona" //Diona
+    | "Dori" //Dori
+    | "Emilie" //Emilie
+    | "Eula" //Eula
+    | "Faruzan" //Faruzan
+    | "Fischl" //Fischl
+    | "Freminet" //Freminet
+    | "Furina" //Furina
+    | "Gaming" //Gaming
+    | "Ganyu" //Ganyu
+    | "Gorou" //Gorou
+    | "HuTao" //Hu Tao
+    | "Jean" //Jean
+    | "Kachina" //Kachina
+    | "KaedeharaKazuha" //Kaedehara Kazuha
+    | "Kaeya" //Kaeya
+    | "KamisatoAyaka" //Kamisato Ayaka
+    | "KamisatoAyato" //Kamisato Ayato
+    | "Kaveh" //Kaveh
+    | "Keqing" //Keqing
+    | "Kinich" //Kinich
+    | "Kirara" //Kirara
+    | "Klee" //Klee
+    | "KujouSara" //Kujou Sara
+    | "KukiShinobu" //Kuki Shinobu
+    | "LanYan" //Lan Yan
+    | "Layla" //Layla
+    | "Lisa" //Lisa
+    | "Lynette" //Lynette
+    | "Lyney" //Lyney
+    | "Mavuika" //Mavuika
+    | "Mika" //Mika
+    | "Mona" //Mona
+    | "Mualani" //Mualani
+    | "Nahida" //Nahida
+    | "Navia" //Navia
+    | "Neuvillette" //Neuvillette
+    | "Nilou" //Nilou
+    | "Ningguang" //Ningguang
+    | "Noelle" //Noelle
+    | "Ororon" //Ororon
+    | "Qiqi" //Qiqi
+    | "RaidenShogun" //Raiden Shogun
+    | "Razor" //Razor
+    | "Rosaria" //Rosaria
+    | "SangonomiyaKokomi" //Sangonomiya Kokomi
+    | "Sayu" //Sayu
+    | "Sethos" //Sethos
+    | "Shenhe" //Shenhe
+    | "ShikanoinHeizou" //Shikanoin Heizou
+    | "Sigewinne" //Sigewinne
+    | "Somnia" //Somnia
+    | "Sucrose" //Sucrose
+    | "Tartaglia" //Tartaglia
+    | "Thoma" //Thoma
+    | "Tighnari" //Tighnari
+    | "Traveler" //Lumine
+    | "Venti" //Venti
+    | "Wanderer" //Wanderer
+    | "Wriothesley" //Wriothesley
+    | "Xiangling" //Xiangling
+    | "Xianyun" //Xianyun
+    | "Xiao" //Xiao
+    | "Xingqiu" //Xingqiu
+    | "Xinyan" //Xinyan
+    | "YaeMiko" //Yae Miko
+    | "Yanfei" //Yanfei
+    | "Yaoyao" //Yaoyao
+    | "Yelan" //Yelan
+    | "Yoimiya" //Yoimiya
+    | "YumemizukiMizuki" //Yumemizuki Mizuki
+    | "YunJin" //Yun Jin
+    | "Zhongli"; //Zhongli
 
 export type MaterialKey =
     | "1000YearsOfLoneliness" // 1000 Years of Loneliness
@@ -6301,27 +6465,6 @@ export type MaterialKey =
     | "ZhuyusGoldenShrimpBalls" // Zhuyu's Golden Shrimp Balls
     | "ZohrahMushroom"; // Zohrah Mushroom
 
-export type StatKey =
-    | "hp" //HP
-    | "hp_" //HP%
-    | "atk" //ATK
-    | "atk_" //ATK%
-    | "def" //DEF
-    | "def_" //DEF%
-    | "eleMas" //Elemental Mastery
-    | "enerRech_" //Energy Recharge
-    | "heal_" //Healing Bonus
-    | "critRate_" //CRIT Rate
-    | "critDMG_" //CRIT DMG
-    | "physical_dmg_" //Physical DMG Bonus
-    | "anemo_dmg_" //Anemo DMG Bonus
-    | "geo_dmg_" //Geo DMG Bonus
-    | "electro_dmg_" //Electro DMG Bonus
-    | "hydro_dmg_" //Hydro DMG Bonus
-    | "pyro_dmg_" //Pyro DMG Bonus
-    | "cryo_dmg_" //Cryo DMG Bonus
-    | "dendro_dmg_"; //Dendro DMG Bonus
-
 export type WeaponKey =
     | "AThousandBlazingSuns" //A Thousand Blazing Suns
     | "AThousandFloatingDreams" //A Thousand Floating Dreams
@@ -6531,156 +6674,25 @@ export type WeaponKey =
     | "WolfsGravestone" //Wolf's Gravestone
     | "XiphosMoonlight"; //Xiphos' Moonlight
 
-export type CharacterKey =
-    | "Albedo" //Albedo
-    | "Alhaitham" //Alhaitham
-    | "Aloy" //Aloy
-    | "Amber" //Amber
-    | "AratakiItto" //Arataki Itto
-    | "Arlecchino" //Arlecchino
-    | "Baizhu" //Baizhu
-    | "Barbara" //Barbara
-    | "Beidou" //Beidou
-    | "Bennett" //Bennett
-    | "Candace" //Candace
-    | "Charlotte" //Charlotte
-    | "Chasca" //Chasca
-    | "Chevreuse" //Chevreuse
-    | "Chiori" //Chiori
-    | "Chongyun" //Chongyun
-    | "Citlali" //Citlali
-    | "Clorinde" //Clorinde
-    | "Collei" //Collei
-    | "Cyno" //Cyno
-    | "Dehya" //Dehya
-    | "Diluc" //Diluc
-    | "Diona" //Diona
-    | "Dori" //Dori
-    | "Emilie" //Emilie
-    | "Eula" //Eula
-    | "Faruzan" //Faruzan
-    | "Fischl" //Fischl
-    | "Freminet" //Freminet
-    | "Furina" //Furina
-    | "Gaming" //Gaming
-    | "Ganyu" //Ganyu
-    | "Gorou" //Gorou
-    | "HuTao" //Hu Tao
-    | "Jean" //Jean
-    | "Kachina" //Kachina
-    | "KaedeharaKazuha" //Kaedehara Kazuha
-    | "Kaeya" //Kaeya
-    | "KamisatoAyaka" //Kamisato Ayaka
-    | "KamisatoAyato" //Kamisato Ayato
-    | "Kaveh" //Kaveh
-    | "Keqing" //Keqing
-    | "Kinich" //Kinich
-    | "Kirara" //Kirara
-    | "Klee" //Klee
-    | "KujouSara" //Kujou Sara
-    | "KukiShinobu" //Kuki Shinobu
-    | "LanYan" //Lan Yan
-    | "Layla" //Layla
-    | "Lisa" //Lisa
-    | "Lynette" //Lynette
-    | "Lyney" //Lyney
-    | "Mavuika" //Mavuika
-    | "Mika" //Mika
-    | "Mona" //Mona
-    | "Mualani" //Mualani
-    | "Nahida" //Nahida
-    | "Navia" //Navia
-    | "Neuvillette" //Neuvillette
-    | "Nilou" //Nilou
-    | "Ningguang" //Ningguang
-    | "Noelle" //Noelle
-    | "Ororon" //Ororon
-    | "Qiqi" //Qiqi
-    | "RaidenShogun" //Raiden Shogun
-    | "Razor" //Razor
-    | "Rosaria" //Rosaria
-    | "SangonomiyaKokomi" //Sangonomiya Kokomi
-    | "Sayu" //Sayu
-    | "Sethos" //Sethos
-    | "Shenhe" //Shenhe
-    | "ShikanoinHeizou" //Shikanoin Heizou
-    | "Sigewinne" //Sigewinne
-    | "Somnia" //Somnia
-    | "Sucrose" //Sucrose
-    | "Tartaglia" //Tartaglia
-    | "Thoma" //Thoma
-    | "Tighnari" //Tighnari
-    | "Traveler" //Lumine
-    | "Venti" //Venti
-    | "Wanderer" //Wanderer
-    | "Wriothesley" //Wriothesley
-    | "Xiangling" //Xiangling
-    | "Xianyun" //Xianyun
-    | "Xiao" //Xiao
-    | "Xingqiu" //Xingqiu
-    | "Xinyan" //Xinyan
-    | "YaeMiko" //Yae Miko
-    | "Yanfei" //Yanfei
-    | "Yaoyao" //Yaoyao
-    | "Yelan" //Yelan
-    | "Yoimiya" //Yoimiya
-    | "YumemizukiMizuki" //Yumemizuki Mizuki
-    | "YunJin" //Yun Jin
-    | "Zhongli"; //Zhongli
-
-export type ArtifactSetKey =
-    | "Adventurer" //Adventurer
-    | "ArchaicPetra" //Archaic Petra
-    | "Berserker" //Berserker
-    | "BlizzardStrayer" //Blizzard Strayer
-    | "BloodstainedChivalry" //Bloodstained Chivalry
-    | "BraveHeart" //Brave Heart
-    | "CrimsonWitchOfFlames" //Crimson Witch of Flames
-    | "DeepwoodMemories" //Deepwood Memories
-    | "DefendersWill" //Defender's Will
-    | "DesertPavilionChronicle" //Desert Pavilion Chronicle
-    | "EchoesOfAnOffering" //Echoes of an Offering
-    | "EmblemOfSeveredFate" //Emblem of Severed Fate
-    | "FlowerOfParadiseLost" //Flower of Paradise Lost
-    | "FragmentOfHarmonicWhimsy" //Fragment of Harmonic Whimsy
-    | "Gambler" //Gambler
-    | "GildedDreams" //Gilded Dreams
-    | "GladiatorsFinale" //Gladiator's Finale
-    | "GoldenTroupe" //Golden Troupe
-    | "HeartOfDepth" //Heart of Depth
-    | "HuskOfOpulentDreams" //Husk of Opulent Dreams
-    | "Instructor" //Instructor
-    | "Lavawalker" //Lavawalker
-    | "LuckyDog" //Lucky Dog
-    | "MaidenBeloved" //Maiden Beloved
-    | "MarechausseeHunter" //Marechaussee Hunter
-    | "MartialArtist" //Martial Artist
-    | "NighttimeWhispersInTheEchoingWoods" //Nighttime Whispers in the Echoing Woods
-    | "NoblesseOblige" //Noblesse Oblige
-    | "NymphsDream" //Nymph's Dream
-    | "ObsidianCodex" //Obsidian Codex
-    | "OceanHuedClam" //Ocean-Hued Clam
-    | "PaleFlame" //Pale Flame
-    | "PrayersForDestiny" //Prayers for Destiny
-    | "PrayersForIllumination" //Prayers for Illumination
-    | "PrayersForWisdom" //Prayers for Wisdom
-    | "PrayersToSpringtime" //Prayers to Springtime
-    | "ResolutionOfSojourner" //Resolution of Sojourner
-    | "RetracingBolide" //Retracing Bolide
-    | "Scholar" //Scholar
-    | "ScrollOfTheHeroOfCinderCity" //Scroll of the Hero of Cinder City
-    | "ShimenawasReminiscence" //Shimenawa's Reminiscence
-    | "SongOfDaysPast" //Song of Days Past
-    | "TenacityOfTheMillelith" //Tenacity of the Millelith
-    | "TheExile" //The Exile
-    | "ThunderingFury" //Thundering Fury
-    | "Thundersoother" //Thundersoother
-    | "TinyMiracle" //Tiny Miracle
-    | "TravelingDoctor" //Traveling Doctor
-    | "UnfinishedReverie" //Unfinished Reverie
-    | "VermillionHereafter" //Vermillion Hereafter
-    | "ViridescentVenerer" //Viridescent Venerer
-    | "VourukashasGlow" //Vourukasha's Glow
-    | "WanderersTroupe"; //Wanderer's Troupe
+export type StatKey =
+    | "hp" //HP
+    | "hp_" //HP%
+    | "atk" //ATK
+    | "atk_" //ATK%
+    | "def" //DEF
+    | "def_" //DEF%
+    | "eleMas" //Elemental Mastery
+    | "enerRech_" //Energy Recharge
+    | "heal_" //Healing Bonus
+    | "critRate_" //CRIT Rate
+    | "critDMG_" //CRIT DMG
+    | "physical_dmg_" //Physical DMG Bonus
+    | "anemo_dmg_" //Anemo DMG Bonus
+    | "geo_dmg_" //Geo DMG Bonus
+    | "electro_dmg_" //Electro DMG Bonus
+    | "hydro_dmg_" //Hydro DMG Bonus
+    | "pyro_dmg_" //Pyro DMG Bonus
+    | "cryo_dmg_" //Cryo DMG Bonus
+    | "dendro_dmg_"; //Dendro DMG Bonus
 
 export type SlotKey = "flower" | "plume" | "sands" | "goblet" | "circlet";

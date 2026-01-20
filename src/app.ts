@@ -1,3 +1,6 @@
+// TODO: Add enka import functionality
+// TODO: Add character visualizer (involves adding imported characters to localStorage)
+
 import { startConversion } from "./convert.js";
 import { $, formatJson } from "./utils.js";
 
