@@ -13,7 +13,7 @@ function main() {
     getBackground();
 
     $("#inputarea").on("input", validateInput);
-    // $("#inputfile").on("change", handleFile);
+    $("#inputfile").on("input", (ev) => handleFile(ev as InputEvent));
     $("#inputarea-outer").on("dragover", handleDragOver);
     $("#inputarea-outer").on("dragleave", handleDragLeave);
     $("#inputarea-outer").on("drop", handleFile);
@@ -42,26 +42,42 @@ function handleDragOver(e: DragEvent) {
     }
 }
 
-function handleFile(e: DragEvent) {
+function handleFile(e: InputEvent | DragEvent) {
     e.preventDefault();
     $("#dropzone").hide();
     $("#input-loading").show();
 
-    let target;
-    if (e != undefined && "dataTransfer" in e) {
+    let fileList: FileList;
+    if (e.target != undefined && "files" in e.target) {
         // DragEvent
-        target = e?.dataTransfer;
+        fileList = (e.target as HTMLInputElement).files!;
+    } else {
+        // InputEvent
+        fileList = e.dataTransfer!.files;
     }
-    //  else {
-    //     // Event
-    //     target = e.target;
-    // }
-    const file = target?.files[0];
+    const file: File = fileList[0];
 
-    if (file?.type !== "application/json" || file?.type === undefined) {
-        alert(`Wrong file type: ${file?.type}`);
-        $("#input-loading").hide();
-        return;
+    if (file?.type !== "application/json") {
+        if (file.type == "") {
+            const indexOfDot = file.name.lastIndexOf(".");
+
+            let fileExt: string;
+            if (indexOfDot == -1) {
+                fileExt = "";
+            } else {
+                fileExt = file.name.substring(indexOfDot + 1);
+            }
+
+            if (!["good", "json", "txt", ""].includes(fileExt)) {
+                alert(`Wrong file extension: ${fileExt}`);
+                $("#input-loading").hide();
+                return;
+            }
+        } else {
+            alert(`Wrong file type: ${file?.type || "undefined"}`);
+            $("#input-loading").hide();
+            return;
+        }
     }
 
     const reader = new FileReader();
@@ -137,7 +153,9 @@ function getBackground() {
 
 function validateInput() {
     const content: string | undefined = $("#inputarea").val();
-    $("#inputfile").val("");
+    $("#otherinputs input").all.forEach((el) => {
+        (el as HTMLInputElement).value = "";
+    });
     $("#outputarea").val("");
 
     $("#outputarea").attr("disabled", "");
@@ -145,12 +163,12 @@ function validateInput() {
     // $("#copy-btn").attr("disabled", "");
     // $("#copy-btn-outer").css("cursor", "not-allowed");
 
-    $("#inputfile").removeAttr("hidden");
+    $("#otherinputs").removeAttr("hidden");
     try {
         if (content == undefined || content.length <= 0) {
             throw new Error("Empty input.");
         }
-        $("#inputfile").attr("hidden", "");
+        $("#otherinputs").attr("hidden", "");
         JSON.parse(content);
         $("#convert-btn").removeAttr("disabled");
     } catch (e) {

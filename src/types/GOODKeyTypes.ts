@@ -1,7 +1,8 @@
 // Updated as of "Version 5.4"
 // TODO
 // Write a script to fetch updated info from
-// hakush.in and automatically edit this file with it.
+// hakush.in, automatically edit this file with it
+// and add it to the JSON validation.
 // These are the API endpoints to use
 // - ArtifactSetKey
 //   - https://api.hakush.in/gi/data/artifact.json

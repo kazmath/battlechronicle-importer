@@ -74,7 +74,22 @@
 
                     <textarea class="form-control input-output-areas round-top" placeholder="" id="inputarea"
                         wrap="off"></textarea>
-                    <input type="file" class="position-absolute start-0 bottom-0 p-2 w-100" id="inputfile">
+                    <div id="otherinputs">
+                        <div class="input-group input-group-sm position-absolute start-0 bottom-0 p-2 w-50" style="height: 10%;">
+                            <input type="file" class="form-control h-100 align-middle" id="inputfile" accept="application/json,.good,text/plain">
+                        </div>
+                        <!-- TODO: Add enka import functionality -->
+                        <div hidden class="position-absolute end-0 bottom-0 m-0 p-2 w-50 row input-group input-group-sm p-0"
+                            style="height: 10%;">
+                            <input type="tel" class="form-control text-center" id="inputuid" placeholder="UID Here"
+                                aria-label="UID Here" aria-describedby="inputuid-btn"
+                                pattern="(?:18|[12356789])[0-9]{8}">
+                            <button type="button" class="btn btn-primary btn-sm col-2 p-0" id="inputuid-btn">
+                                <img width="auto" height="100%" src="./assets/bi-box-arrow-in-right.svg"
+                                    alt="Submit UID">
+                            </button>
+                        </div>
+                    </div>
                     <label for="inputarea">Input</label>
                 </div>
             </div>
