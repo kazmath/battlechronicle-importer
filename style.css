@@ -43,11 +43,18 @@ textarea.form-control {
 
 #inputfile {
     color: var(--bs-secondary-color) !important;
+    align-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 #inputfile::file-selector-button {
     color: white !important;
     background-color: var(--bs-primary) !important;
+    height: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 40%;
 }
 
 #inputfile:hover::file-selector-button {
