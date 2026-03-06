@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Import from Battle Chronicle (Context Menu)
 // @namespace    https://github.com/kazmath/
-// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
-// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
+// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
+// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
 // @version      1.6
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
