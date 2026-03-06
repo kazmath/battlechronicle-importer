@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Import from Battle Chronicle (Context Menu)
 // @namespace    https://github.com/kazmath/
-// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
-// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer_contextmenu.user.js
-// @version      1.5
+// @updateURL    https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
+// @downloadURL  https://github.com/kazmath/battlechronicle-importer/raw/main/bc_importer.user.js
+// @version      1.6
 // @description  A script to import the characters, weapons and artifacts visible from battle chronicle and copy to the clipboard. For joint usage with https://kazmath.github.io/battlechronicle-importer/.
 // @author       KazMath
 // @match        https://act.hoyolab.com/*
@@ -14,7 +14,7 @@
 
 "use strict";
 
-let json_cache;
+let jsonCache;
 
 if (document.querySelectorAll(".account-block").length <= 0) {
     alert("Page still loading, wait a few seconds and try again.");
@@ -31,8 +31,8 @@ main()
     });
 
 async function main() {
-    if (json_cache) {
-        copyToClipboard(json_cache);
+    if (jsonCache) {
+        copyToClipboard(jsonCache);
         return;
     }
 
@@ -45,7 +45,7 @@ async function main() {
 
     let server;
     // normalize to 10-long and take region (first 2 chars)
-    switch(uid.padStart(10, "0").substring(0, 2)){
+    switch (uid.padStart(10, "0").substring(0, 2)) {
         case "01":
         case "02":
         case "03":
@@ -70,7 +70,7 @@ async function main() {
     }
 
     const lastRequestDate = localStorage.getItem(
-        "__bc-to-good_userscript_ratelimit__"
+        "__bc-to-good_userscript_ratelimit__",
     );
     if (
         lastRequestDate != null &&
@@ -79,7 +79,7 @@ async function main() {
     ) {
         // 30s rate limiter (do not remove unless you want to potentially be banned)
         throw new Error(
-            "Rate limited, wait 30s before executing this action again."
+            "Rate limited, wait 30s before executing this action again.",
         );
     }
 
@@ -99,7 +99,7 @@ async function main() {
     })
         .then((e) => e.json())
         .then((e) => {
-            const id_list = e.data.list.map((value) => {
+            const idList = e.data.list.map((value) => {
                 return value.id;
             });
 
@@ -110,7 +110,7 @@ async function main() {
                     body: JSON.stringify({
                         server: server,
                         role_id: uid,
-                        character_ids: id_list,
+                        character_ids: idList,
                     }),
                     headers: {
                         Accept: "application/json",
@@ -119,22 +119,26 @@ async function main() {
                     },
                     credentials: "include",
                     referrer: "https://act.hoyolab.com/",
-                }
+                },
             );
         })
         .then((e) => e.json())
         .then((e) => {
             localStorage.setItem(
                 "__bc-to-good_userscript_ratelimit__",
-                Date.now()
+                Date.now(),
             );
             setTimeout(() => {
                 localStorage.removeItem("__bc-to-good_userscript_ratelimit__");
-                console.log("30s passed, no longer rate limited");
+                printLog("30s passed, no longer rate limited");
             }, 30 * 1000);
 
-            const jsonString = JSON.stringify(e).trim();
-            json_cache = jsonString;
+            const jsonString = JSON.stringify(e, null, 4);
+            printLog({
+                originalJson: e,
+                stringifiedJson: jsonString,
+            });
+            jsonCache = jsonString;
             copyToClipboard(jsonString);
         })
         .catch((e) => {
@@ -162,3 +166,7 @@ function copyToClipboard(jsonString) {
 //     elem.click();
 //     document.body.removeChild(elem);
 // }
+
+function printLog(...data) {
+    console.log("[Import from Battle Chronicle (Context Menu)]:", data);
+}
