@@ -108,7 +108,7 @@ function handleDragLeave(e: DragEvent) {
 }
 
 function getBackground() {
-    const url = new URL("https://hyvgnshimg-proxy.deno.dev/");
+    const url = new URL("https://hyvgnshimg-proxy.kazmath.deno.net/");
     url.searchParams.set("language", getBackgroundLocale());
     Object.assign(document.body.style, {
         backgroundColor: "black",
