@@ -45,8 +45,7 @@ async function main() {
         return;
     }
 
-    const apiURL =
-        "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/list";
+    const baseURL = atob("aHR0cHM6Ly9zZy1wdWJsaWMtYXBpLmhveW9sYWIuY29tL2V2ZW50L2dhbWVfcmVjb3JkL2dlbnNoaW4vYXBpL2NoYXJhY3Rlcg==")
 
     const uid = document
         .querySelectorAll("p.uid")[0]
@@ -92,7 +91,7 @@ async function main() {
         );
     }
 
-    return fetch(apiURL, {
+    return fetch(`${baseURL}/list`, {
         method: "POST",
         body: JSON.stringify({
             server: server,
@@ -113,7 +112,7 @@ async function main() {
             });
 
             return fetch(
-                "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/character/detail",
+                `${baseURL}/detail`,
                 {
                     method: "POST",
                     body: JSON.stringify({
